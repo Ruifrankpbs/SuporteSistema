@@ -7,7 +7,17 @@ app.set('view engine', 'ejs');
 //rotas
 
 app.get("/", (req, res) =>{
-    res.render("index");
+    var nome = "Rui Frank";
+    var langprog1 = "javascript";
+    var langprog2 = "php";
+
+    res.render("index",{
+        nome:nome,
+        langprog1:langprog1,
+        langprog2:langprog2,
+        empresa:"T-pro",
+        funcionarios:2
+    });
 });
 
 //definindo a porta

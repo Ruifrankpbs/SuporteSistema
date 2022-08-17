@@ -143,3 +143,100 @@ app.listen(3000, () => {
 ~~~~
 
 Dessa forma estaremos indicando para o Express renderizar o arquivo **index** que se encontra dentro da pasta **views**. Este comando procurará automáticamente dentro desta pasta **views**, por isso certifique-se que ela está escrita igual a este exemplo, pois se tiver escrito com algum erro o Express não encontrará o arquivo indicado entre chaves, nesse caso **index**.
+
+# EXIBINDO VARIÁVEIS NO HTML COM EXPRESS E EJS
+
+Primeiramente devemos ir nas nossa rotas e definir as nossas variáveis, o seu código nas rotas deve estar dessa forma:
+
+~~~~javascript
+//rotas
+
+app.get("/", (req, res) =>{
+    res.render("index");
+});
+~~~~
+
+Então acima do nosso método render definimos nossas variaveis, como exemplo vou colocar o meu nome e minhas linguagens de programação favoritas:
+
+~~~~javascript
+//rotas
+
+app.get("/", (req, res) =>{
+    var nome = "Rui Frank";
+    var langprog1 = "javascript";
+    var langprog2 = "php";
+    
+    res.render("index");
+});
+~~~~
+
+Agora para renderizarmos essas informações no HTML através do EJS, devemos acrescentar uma virgula após o parâmetro que define o arquivo de renderização principal dessa rota nesse caso o **index**  em seguida abrir chaves e definir os dados que serão utilizados na renderização da página HTML. Nesse exemplo, irei colocar as três variáveis e mais alguns valores manualmente, que ficará dessa forma:
+
+~~~~javascript
+//rotas
+
+app.get("/", (req, res) =>{
+    var nome = "Rui Frank";
+    var langprog1 = "javascript";
+    var langprog2 = "php";
+    
+    res.render("index",{
+        nome:nome,//nome recebe a variável nome
+        langprog1:langprog1,//langprog1 recebe a variável langprog1
+        langprog2:langprog2,//langprog2 recebe a variável langprog2
+        empresa:"T-pro",
+        funcionarios:2
+    });
+});
+~~~~
+
+Dessa forma você define os valores que poderão ser exibidos na renderização.Mas ainda precisamos definir dentro do arquivo EJS onde esses valores serão renderizados no arquivo EJS que é o mesmo arquivo onde criamos nossas páginas HTML com EJS. Para definir utilizamos a tag **<%= %>** para exibir valores de uma variável.
+
+Então iremos acessar nosso arquivo **index.ejs** que deve estar da seguinte forma:
+
+~~~~html
+<! -- arquivo index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte Perguntas e Respostas</title>
+</head>
+<body>
+    <h1>Seja Bem Vindo!</h1>
+    <p>Este site está sendo desenvolvido para ser um tipo de fórum onde se poderão fazer e responder perguntas referentes a um sistema que dou suporte</p>
+</body>
+</html>
+~~~~
+
+Então iremos acrescentar as tags especiais do EJS para podermos acessar as variáveis definidas dentro do nosso Servidor Express nas rotas do projeto. Ficará da seguinte forma.
+
+~~~~html
+<! -- arquivo index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte Perguntas e Respostas</title>
+</head>
+<body>
+    <h1>Seja Bem Vindo!</h1>
+    <p>Este site está sendo desenvolvido para ser um tipo de fórum onde se poderão fazer e responder perguntas referentes a um sistema que dou suporte</p>
+
+    <%= nome %>
+    <%= langprog1 %>
+    <%= langprog2 %>
+    <%= empresa %>
+    <%= funcionarios %>
+</body>
+</html>
+~~~~
+
+Para ver o resultado desta codificação basta acessar a rota do projeto, definida na parte do método **listen** no Servidor Express no arquivo **index.js**, que nesse caso ficará: http://localhost:3000
+
+[image]C:\www\SuporteSistema\prints\Capturar.PNG
+
