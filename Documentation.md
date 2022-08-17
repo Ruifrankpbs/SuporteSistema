@@ -238,5 +238,5 @@ Então iremos acrescentar as tags especiais do EJS para podermos acessar as vari
 
 Para ver o resultado desta codificação basta acessar a rota do projeto, definida na parte do método **listen** no Servidor Express no arquivo **index.js**, que nesse caso ficará: http://localhost:3000
 
-[image]C:\www\SuporteSistema\prints\Capturar.PNG
+
 
