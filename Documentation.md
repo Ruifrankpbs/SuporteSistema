@@ -238,5 +238,51 @@ Então iremos acrescentar as tags especiais do EJS para podermos acessar as vari
 
 Para ver o resultado desta codificação basta acessar a rota do projeto, definida na parte do método **listen** no Servidor Express no arquivo **index.js**, que nesse caso ficará: http://localhost:3000
 
-[image]C:\www\SuporteSistema\prints\Capturar.PNG
 
+
+# VALORES DE PARÂMETROS OBTIDOS DO USUÁRIO
+
+Através do **req.params.NOME_DO_PARAMETRO** inserido no lugar no valor da variável no arquivo **index.js** e ainda o acrescimo de dos parâmetros na rota que deseja fazer a requisição desse parâmetros da seguinte forma **/:NOME_DO_PARAMETRO**.
+
+Nosso código nas rotas em **index.js** estava assim:
+
+~~~~javascript
+//rotas
+
+app.get("/", (req, res) =>{
+    var nome = "Rui Frank";
+    var langprog1 = "javascript";
+    var langprog2 = "php";
+    
+    res.render("index",{
+        nome:nome,//nome recebe a variável nome
+        langprog1:langprog1,//langprog1 recebe a variável langprog1
+        langprog2:langprog2,//langprog2 recebe a variável langprog2
+        empresa:"T-pro",
+        funcionarios:2
+    });
+});
+~~~~
+
+Agora com o **req.params.NOME_DO_PARAMETRO** e os parâmetros na rota **/:NOME_DO_PARAMETRO**, nosso código das rotas em **index.js** ficará assim:
+
+~~~~javascript
+//rotas
+//rotas com requisição de parametros vinda do usuário
+app.get("/:nome/:langpro1/:langpro2", (req, res) =>{
+    var nome = req.params.nome;
+    var langprog1 = req.params.langpro1;//requisição de parametro 
+    var langprog2 = req.params.langpro2;//requisição de parametro 
+    
+    res.render("index",{
+        nome:nome,//nome recebe a variável nome
+        langprog1:langprog1,//langprog1 recebe a variável langprog1
+        langprog2:langprog2,//langprog2 recebe a variável langprog2
+        empresa:"T-pro",
+        funcionarios:2
+    });
+});
+~~~~
+O resultado será o seguinte:
+
+<img src = "img\utilizando_req_params_express.png">

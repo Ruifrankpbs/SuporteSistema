@@ -5,16 +5,16 @@ const app = express();//criar uma instancia do express
 app.set('view engine', 'ejs');
 
 //rotas
-
-app.get("/", (req, res) =>{
-    var nome = "Rui Frank";
-    var langprog1 = "javascript";
-    var langprog2 = "php";
-
+//rotas com requisição de parametros vinda do usuário
+app.get("/:nome/:langpro1/:langpro2", (req, res) =>{
+    var nome = req.params.nome;
+    var langprog1 = req.params.langpro1;//requisição de parametro 
+    var langprog2 = req.params.langpro2;//requisição de parametro 
+    
     res.render("index",{
-        nome:nome,
-        langprog1:langprog1,
-        langprog2:langprog2,
+        nome:nome,//nome recebe a variável nome
+        langprog1:langprog1,//langprog1 recebe a variável langprog1
+        langprog2:langprog2,//langprog2 recebe a variável langprog2
         empresa:"T-pro",
         funcionarios:2
     });
