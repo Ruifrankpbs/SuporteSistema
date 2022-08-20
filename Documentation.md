@@ -286,3 +286,257 @@ app.get("/:nome/:langpro1/:langpro2", (req, res) =>{
 O resultado será o seguinte:
 
 <img src = "img\utilizando_req_params_express.png">
+
+
+
+# ESTRUTURAS DE REPETIÇÕES NO EJS
+
+Assim como nas linguagens de programação, no EJS podemos adicionar funcionalidades ao nosso html através do EJS. Nessa etapa faremos um pequeno estudo de condicionais de repetição e realizar alguns testes. **if e else**
+
+## IF
+
+Primeiramente vamos adicionar uma nova variável no nosso arquivo **index.js**, que é o nosso arquivo de configuração do *Express*;
+
+Chamaremos essa variável de **showMsg** ;
+
+E dentro do nosso **app.render** iremos atribuir o valor da variavel **showMsg** ao campo **msg**;
+
+Nosso código ficará assim:
+
+
+
+~~~~javascript
+const express = require("express");//importando o módulo do express
+const app = express();//criar uma instancia do express
+
+//Estou configurando no Express a View Engine (renderizador html) que será utilizado
+app.set('view engine', 'ejs');
+
+//rotas
+//rotas com requisição de parametros vinda do usuário
+app.get("/:nome/:langpro1/:langpro2", (req, res) =>{
+    var nome = req.params.nome;
+    var langprog1 = req.params.langpro1;//requisição de parametro 
+    var langprog2 = req.params.langpro2;//requisição de parametro 
+    var showMsg = true;
+    
+    res.render("index",{
+        nome:nome,//nome recebe a variável nome
+        langprog1:langprog1,//langprog1 recebe a variável langprog1
+        langprog2:langprog2,//langprog2 recebe a variável langprog2
+        empresa:"T-pro",
+        funcionarios:2,
+        msg:showMsg
+    });
+});
+
+//definindo a porta
+
+app.listen(3000, () => {
+    console.log("App rodando!")
+});
+
+~~~~
+
+
+
+No código do nosso arquivo **index.ejs**, que é o arquivo que contém nosso html, iremos configurar as informações que serão renderizadas;
+
+Lembrando que para carregar valores de variáveis no *EJS* utilizamos **<%=  %>**, porém quando queremos utilizar somente uma expressão, utilizamos **<%  %>** ;
+
+Nesse pequeno estudo iremos simular uma mensagem de erro , nesse caso utilizaremos **if** para criar uma condição para exibir essa mensagem;
+
+Nosso código ficará assim:
+
+~~~~html
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Suporte Perguntas e Respostas</title>
+    </head>
+
+    <body>
+        <h1>Seja Bem Vindo!</h1>
+        <p>Este site está sendo desenvolvido para ser um tipo de fórum onde se poderão fazer e responder perguntas
+            referentes a um sistema que dou suporte</p>
+        <%= nome %><br>
+            <%= langprog1 %> <br>
+                <%= langprog2 %><br>
+                    <%= empresa %><br>
+                        <%= funcionarios %><br>
+
+                            <% if(msg==true){ %> <!-- !Esse bloco de código fará com que caso o valor da variável showMsg
+                                seja verdadeiro dentro do arquivo do nosso servidor Express, irá exibir esta mensagem
+                                dentro do H3 -->
+                                <h3>
+                                    Esta é uma mensagem de erro!
+                                </h3>
+                                <%}%>
+
+
+
+    </body>
+
+</html>  
+        
+        
+
+</body>
+</html>
+~~~~
+
+Note que para essa expressão funcionar, devemos sempre abrir e fechar cada parte da expressão.
+
+Para conferir o resultado no navegador, como sempre devemos estar com o nosso **Nodemon** rodando o nosso servidor;
+
+Só pra relembrar, bastar você está com o terminal aberto dentro da pasta do projeto e rodar o seguinte comando:
+
+~~~~terminal
+nodemon index.ejs
+~~~~
+
+<img src="img\rodando_nodemon.png">
+
+
+
+Dessa forma nosso Servidor está rodando!!;
+
+E o resultado desse nosso código será:
+
+<img src="img\resultado_msg_erro_condicional.png">
+
+
+
+E nossa mensagem apareceu!!;
+
+Lembrando que para aparecer essa página, devemos nos atentar que no nosso arquivo **index.js** configuramos os **req.params** e eles são **OBRIGATÓRIOS**, então se você não passar os parametros de "Nome/LinguagemFavorita1/LinguagemFavorita2" na URL, o servidor aparecerá o seguinte erro:
+
+<img src="img\erro_navegador_sem_params.png">
+
+Para resolver esse erro, bastar você digitar o que se pede no arquivo **index.js**
+
+
+
+~~~~javascript
+app.get("/:nome/:langpro1/:langpro2", (req, res) =>{
+    var nome = req.params.nome;//requisição de parametro OBRIGATÓRIO
+    var langprog1 = req.params.langpro1;//requisição de parametro OBRIGATÓRIO 
+    var langprog2 = req.params.langpro2;//requisição de parametro OBRIGATÓRIO
+    var showMsg = true;
+    
+    res.render("index",{
+        nome:nome,//nome recebe a variável nome
+        langprog1:langprog1,//langprog1 recebe a variável langprog1
+        langprog2:langprog2,//langprog2 recebe a variável langprog2
+        empresa:"T-pro",
+        funcionarios:2,
+        msg:showMsg
+    });
+});
+~~~~
+
+
+
+Então para acessar essa página, você coloca os parâmetros na URL:
+
+~~~~url
+http://localhost:3000/nome/linguagemfavorita1/linguagemfavorita2
+~~~~
+
+Dessa forma aparecerá a página com essas informações digitadas na URL, juntamente com a nossa mensagem de erro condicional.
+
+
+
+## ELSE
+
+Para utilização do **else**, utilizamos a mesma lógica do **if**
+
+Nosso código no arquivo **index.ejs** ficará assim:
+
+~~~~html
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Suporte Perguntas e Respostas</title>
+    </head>
+
+    <body>
+        <h1>Seja Bem Vindo!</h1>
+        <p>Este site está sendo desenvolvido para ser um tipo de fórum onde se poderão fazer e responder perguntas
+            referentes a um sistema que dou suporte</p>
+        <%= nome %><br>
+            <%= langprog1 %> <br>
+                <%= langprog2 %><br>
+                    <%= empresa %><br>
+                        <%= funcionarios %><br>
+
+                            <% if(msg==true){ %>
+                                <!-- !Esse bloco de código fará com que caso o valor da variável showMsg
+                                seja verdadeiro dentro do arquivo do nosso servidor Express, irá exibir esta mensagem
+                                dentro do H3 -->
+                                <h3>
+                                    Esta é uma mensagem de erro!
+                                </h3>
+                                <%}else{ %>
+                                        <!-- !Esse bloco de código fará com que caso o valor da variável showMsg
+                                 não seja verdadeiro dentro do arquivo do nosso servidor Express, irá exibir esta mensagem
+                                dentro do H3 -->
+                                        <h3>
+                                            Sem ERROS!
+                                        </h3>
+                                        <%}%>
+
+
+    </body>
+
+</html>
+
+~~~~
+
+E dentro do arquivo **index.js** alteraremos o valor da variável **showMsg** para *false*;
+
+Dessa forma nosso código ficará assim:
+
+~~~~javascript
+const express = require("express");//importando o módulo do express
+const app = express();//criar uma instancia do express
+
+//Estou configurando no Express a View Engine (renderizador html) que será utilizado
+app.set('view engine', 'ejs');
+
+//rotas
+//rotas com requisição de parametros vinda do usuário
+app.get("/:nome/:langpro1/:langpro2", (req, res) =>{
+    var nome = req.params.nome;
+    var langprog1 = req.params.langpro1;//requisição de parametro 
+    var langprog2 = req.params.langpro2;//requisição de parametro 
+    var showMsg = false;//Mudando o valor desta variável para "false" iremos ativar o "else" contido no nosso código do arquivo "index.ejs"
+    
+    res.render("index",{
+        nome:nome,//nome recebe a variável nome
+        langprog1:langprog1,//langprog1 recebe a variável langprog1
+        langprog2:langprog2,//langprog2 recebe a variável langprog2
+        empresa:"T-pro",
+        funcionarios:2,
+        msg:showMsg
+    });
+});
+
+//definindo a porta
+
+app.listen(3000, () => {
+    console.log("App rodando!")
+});
+~~~~
+
+E teremos o seguinte resultado no navegador utilizando o nosso **nodemon**
+
+<img src="img\if_else_result.png">
