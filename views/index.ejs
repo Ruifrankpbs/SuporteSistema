@@ -1,19 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suporte Perguntas e Respostas</title>
-</head>
-<body>
-    <h1>Seja Bem Vindo!</h1>
-    <p>Este site está sendo desenvolvido para ser um tipo de fórum onde se poderão fazer e responder perguntas referentes a um sistema que dou suporte</p>
-    <%= nome %><br>
-    <%= langprog1 %> <br>
-    <%= langprog2 %><br>
-    <%= empresa %><br>
-    <%= funcionarios %><br>
 
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Suporte Perguntas e Respostas</title>
+    </head>
+
+    <body>
+        <h1>Seja Bem Vindo!</h1>
+        <p>Este site está sendo desenvolvido para ser um tipo de fórum onde se poderão fazer e responder perguntas
+            referentes a um sistema que dou suporte</p>
+        <%= nome %><br>
+            <%= langprog1 %> <br>
+                <%= langprog2 %><br>
+                    <%= empresa %><br>
+                        <%= funcionarios %><br>
+
+                            <% if(msg==true){ %>
+                                <!-- !Esse bloco de código fará com que caso o valor da variável showMsg
+                                seja verdadeiro dentro do arquivo do nosso servidor Express, irá exibir esta mensagem
+                                dentro do H3 -->
+                                <h3>
+                                    Esta é uma mensagem de erro!
+                                </h3>
+                                <%}else{ %>
+                                        <!-- !Esse bloco de código fará com que caso o valor da variável showMsg
+                                 não seja verdadeiro dentro do arquivo do nosso servidor Express, irá exibir esta mensagem
+                                dentro do H3 -->
+                                        <h3>
+                                            Sem ERROS!
+                                        </h3>
+                                        <%}%>
+
+
+    </body>
+
 </html>
