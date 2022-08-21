@@ -26,13 +26,18 @@
                                     Esta é uma mensagem de erro!
                                 </h3>
                                 <%}else{ %>
-                                        <!-- !Esse bloco de código fará com que caso o valor da variável showMsg
+                                    <!-- !Esse bloco de código fará com que caso o valor da variável showMsg
                                  não seja verdadeiro dentro do arquivo do nosso servidor Express, irá exibir esta mensagem
                                 dentro do H3 -->
-                                        <h3>
-                                            Sem ERROS!
-                                        </h3>
-                                        <%}%>
+                                    <h3>
+                                        Sem ERROS!
+                                    </h3>
+                                    <%}%>
+
+                                        <% personagens.forEach(function(personagens){%>
+                                            <h3><%= personagens.nome%></h3>
+                                            <h4><%= personagens.poder%></h4><hr>
+                                                    <%})%>
 
 
     </body>

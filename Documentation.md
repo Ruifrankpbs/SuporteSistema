@@ -540,3 +540,113 @@ app.listen(3000, () => {
 E teremos o seguinte resultado no navegador utilizando o nosso **nodemon**
 
 <img src="img\if_else_result.png">
+
+
+
+# ESTRUTURA DE REPETIÇÃO NO EJS
+
+## FOR EACH
+
+Continuaremos nossos estudos em EJS e Express, nesse estudo faremos testes com a estrutura de repetição **for each**. Para isso precisaremos de dados para exibir na nossa página. Então criaremos uma variável que receberá um *array* como valor. Essa variável será chamada de *personagens*. Após a criação da nossa variável iremos em seguida adicionar no nosso **app.render** para que possa ser exibida/renderizada na nossa página. Então nosso código no arquivo **index.js** ficará assim:
+
+~~~~javascript
+const express = require("express");//importando o módulo do express
+const app = express();//criar uma instancia do express
+
+//Estou configurando no Express a View Engine (renderizador html) que será utilizado
+app.set('view engine', 'ejs');
+
+//rotas
+//rotas com requisição de parametros vinda do usuário
+app.get("/:nome/:langpro1/:langpro2", (req, res) =>{
+    var nome = req.params.nome;
+    var langprog1 = req.params.langpro1;//requisição de parametro 
+    var langprog2 = req.params.langpro2;//requisição de parametro 
+    var showMsg = false;
+    var personagens = [
+        {nome:"Goku", poder:"kamahameha"},
+        {nome:"Ichigo", poder:"Getsuga Tenshou"},
+        {nome:"Naruto", poder:"Hasengan"},
+		{nome:"Seya", poder:"Meteóro de Pegasus"}
+    ]//Variável para testar estrutura de repetição for each
+    
+    res.render("index",{
+        nome:nome,//nome recebe a variável nome
+        langprog1:langprog1,//langprog1 recebe a variável langprog1
+        langprog2:langprog2,//langprog2 recebe a variável langprog2
+        empresa:"T-pro",
+        funcionarios:2,
+        msg:showMsg,
+        personagens:personagens//renderização da nossa variavel personagen
+    });
+});
+
+//definindo a porta
+
+app.listen(3000, () => {
+    console.log("App rodando!")
+});
+~~~~
+
+Depois de implementado nosso código no arquivo **index.js**, iremos configurar o *for each* no nosso arquivo **index.ejs**, para que nossas informações seja renderizadas na nossa página html.
+
+Nosso código ficará assim:
+
+~~~~html
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Suporte Perguntas e Respostas</title>
+    </head>
+
+    <body>
+        <h1>Seja Bem Vindo!</h1>
+        <p>Este site está sendo desenvolvido para ser um tipo de fórum onde se poderão fazer e responder perguntas
+            referentes a um sistema que dou suporte</p>
+        <%= nome %><br>
+            <%= langprog1 %> <br>
+                <%= langprog2 %><br>
+                    <%= empresa %><br>
+                        <%= funcionarios %><br>
+
+                            <% if(msg==true){ %>
+                                <!-- !Esse bloco de código fará com que caso o valor da variável showMsg
+                                seja verdadeiro dentro do arquivo do nosso servidor Express, irá exibir esta mensagem
+                                dentro do H3 -->
+                                <h3>
+                                    Esta é uma mensagem de erro!
+                                </h3>
+                                <%}else{ %>
+                                    <!-- !Esse bloco de código fará com que caso o valor da variável showMsg
+                                 não seja verdadeiro dentro do arquivo do nosso servidor Express, irá exibir esta mensagem
+                                dentro do H3 -->
+                                    <h3>
+                                        Sem ERROS!
+                                    </h3>
+                                    <%}%>
+
+                                        <% personagens.forEach(function(personagens){%>
+                                            <%= personagens.nome%><br>
+                                                <%= personagens.poder%><br><hr>
+                                                    <%})%>
+
+
+    </body>
+
+</html>
+~~~~
+
+Como resultado teremos essa visualização no navegador:
+
+<img src="img\resultado_foreach.png">
+
+Lembrando que você deve estar com o **nodemon** rodando e com as sequintes requisições na URL.
+
+~~~~~terminal
+http://localhost:3000/nome/linguagemfavorita1/linguagemfavorita2
+~~~~~
+

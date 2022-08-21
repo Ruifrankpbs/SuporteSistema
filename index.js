@@ -11,6 +11,12 @@ app.get("/:nome/:langpro1/:langpro2", (req, res) =>{
     var langprog1 = req.params.langpro1;//requisição de parametro 
     var langprog2 = req.params.langpro2;//requisição de parametro 
     var showMsg = false;
+    var personagens = [
+        {nome:"Goku", poder:"kamahameha"},
+        {nome:"Ichigo", poder:"Getsuga Tenshou"},
+        {nome:"Naruto", poder:"Hasengan"},
+		{nome:"Seya", poder:"Meteóro de Pegasus"}
+    ]//Variável para testar estrutura de repetição for each
     
     res.render("index",{
         nome:nome,//nome recebe a variável nome
@@ -18,7 +24,8 @@ app.get("/:nome/:langpro1/:langpro2", (req, res) =>{
         langprog2:langprog2,//langprog2 recebe a variável langprog2
         empresa:"T-pro",
         funcionarios:2,
-        msg:showMsg
+        msg:showMsg,
+        personagens:personagens//renderização da nossa variavel personagen
     });
 });
 
