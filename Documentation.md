@@ -170,7 +170,7 @@ app.get("/", (req, res) =>{
 });
 ~~~~
 
-Agora para renderizarmos essas informações no HTML através do EJS, devemos acrescentar uma virgula após o parâmetro que define o arquivo de renderização principal dessa rota nesse caso o **index**  em seguida abrir chaves e definir os dados que serão utilizados na renderização da página HTML. Nesse exemplo, irei colocar as três variáveis e mais alguns valores manualmente, que ficará dessa forma:
+Agora para renderizarmos essas informações no HTML através do EJS, devemos acrescentar uma virgula após o parâmetro que define o arquivo de renderização principal dessa rota, nesse caso o **index**,  em seguida abrir chaves e definir os dados que serão utilizados na renderização da página HTML. Nesse exemplo, irei colocar as três variáveis e mais alguns valores manualmente, que ficará dessa forma:
 
 ~~~~javascript
 //rotas
@@ -242,7 +242,7 @@ Para ver o resultado desta codificação basta acessar a rota do projeto, defini
 
 # VALORES DE PARÂMETROS OBTIDOS DO USUÁRIO
 
-Através do **req.params.NOME_DO_PARAMETRO** inserido no lugar no valor da variável no arquivo **index.js** e ainda o acrescimo de dos parâmetros na rota que deseja fazer a requisição desse parâmetros da seguinte forma **/:NOME_DO_PARAMETRO**.
+Podemos realizar requisição de informações direto do usuário através do **req.params.NOME_DO_PARAMETRO** inserido no lugar no valor da variável no arquivo **index.js** e devemos acrescentar esses parâmetros na rota da página que deseja fazer essa requisição desse parâmetros. Para isso utilize **/:NOME_DO_PARAMETRO**.
 
 Nosso código nas rotas em **index.js** estava assim:
 
@@ -287,11 +287,11 @@ O resultado será o seguinte:
 
 <img src = "img\utilizando_req_params_express.png">
 
-
+Lembrando que você deve colocar na URL os valores requisitados, nesse exemplo acima eu coloquei assim: "localhost:3000/MeuNome/Linguagem1/Linguagem2". Dessa forma você estará obtendo os dados do proprio usuário  e o EJS fará a renderização na pagina HTML.
 
 # ESTRUTURAS DE REPETIÇÕES NO EJS
 
-Assim como nas linguagens de programação, no EJS podemos adicionar funcionalidades ao nosso html através do EJS. Nessa etapa faremos um pequeno estudo de condicionais de repetição e realizar alguns testes. **if e else**
+Assim como nas linguagens de programação, no EJS podemos adicionar funcionalidades ao nosso html . Nessa etapa faremos um pequeno estudo de condicionais de repetição e realizar alguns testes. **if e else**
 
 ## IF
 
@@ -338,7 +338,7 @@ app.listen(3000, () => {
 
 ~~~~
 
-
+Note que colocamos o valor da Variável **showMsg** como *true* ;
 
 No código do nosso arquivo **index.ejs**, que é o arquivo que contém nosso html, iremos configurar as informações que serão renderizadas;
 
@@ -369,9 +369,7 @@ Nosso código ficará assim:
                     <%= empresa %><br>
                         <%= funcionarios %><br>
 
-                            <% if(msg==true){ %> <!-- !Esse bloco de código fará com que caso o valor da variável showMsg
-                                seja verdadeiro dentro do arquivo do nosso servidor Express, irá exibir esta mensagem
-                                dentro do H3 -->
+                            <% if(msg==true){ %> <!-- !Esse bloco de código fará com que caso o valor da variável showMsg seja verdadeiro dentro do arquivo do nosso servidor Express, irá exibir esta mensagem dentro do H3 -->
                                 <h3>
                                     Esta é uma mensagem de erro!
                                 </h3>
@@ -393,7 +391,7 @@ Note que para essa expressão funcionar, devemos sempre abrir e fechar cada part
 
 Para conferir o resultado no navegador, como sempre devemos estar com o nosso **Nodemon** rodando o nosso servidor;
 
-Só pra relembrar, bastar você está com o terminal aberto dentro da pasta do projeto e rodar o seguinte comando:
+Só pra relembrar, basta você está com o terminal aberto dentro da pasta do projeto e rodar o seguinte comando:
 
 ~~~~terminal
 nodemon index.ejs
@@ -547,7 +545,7 @@ E teremos o seguinte resultado no navegador utilizando o nosso **nodemon**
 
 ## FOR EACH
 
-Continuaremos nossos estudos em EJS e Express, nesse estudo faremos testes com a estrutura de repetição **for each**. Para isso precisaremos de dados para exibir na nossa página. Então criaremos uma variável que receberá um *array* como valor. Essa variável será chamada de *personagens*. Após a criação da nossa variável iremos em seguida adicionar no nosso **app.render** para que possa ser exibida/renderizada na nossa página. Então nosso código no arquivo **index.js** ficará assim:
+Continuaremos nossos estudos em EJS e Express, nesse estudo faremos testes com a estrutura de repetição **for each**. Para isso precisaremos de dados para exibir na nossa página. Então criaremos uma variável que receberá um *array* como valor. Essa variável será chamada de *"personagens"*. Após a criação da nossa variável iremos em seguida adicionar no nosso **res.render** para que possa ser exibida/renderizada na nossa página. Então nosso código no arquivo **index.js** ficará assim:
 
 ~~~~javascript
 const express = require("express");//importando o módulo do express
@@ -650,3 +648,155 @@ Lembrando que você deve estar com o **nodemon** rodando e com as sequintes requ
 http://localhost:3000/nome/linguagemfavorita1/linguagemfavorita2
 ~~~~~
 
+Então você percebeu que o **FOR EACH** é opção ideal para listagem de dados, e está presente em todas as linguagens de programação.
+
+# ARQUIVOS ESTÁTICOS NO EXPRESS
+
+Arquivos estáticos, são arquivos que não são processados no seu back-end, por exemplo: imagens, arquivos css, arquivos javascrip etc;
+
+Para definir que desejamos utilizar *arquivos estáticos* no Express devemos acessar nosso arquivo **index.js** e digitar o seguinte código:
+
+~~~~javascript
+app.use(express.static('public'));
+~~~~
+
+O nome *'public'* é nome da pasta onde estarão os nossos arquivos estáticos. Você pode utilizar qualquer nome de pasta que funcionará perfeitamente. Mas existe uma convenção que é bastante utilizada na comunidade que devemos nomear essa pasta com o nome 'PUBLIC';
+
+Nosso código em **index.js** ficará assim:
+
+~~~~javascript
+const express = require("express");//importando o módulo do express
+const app = express();//criar uma instancia do express
+
+//Estou configurando no Express a View Engine (renderizador html) que será utilizado
+app.set('view engine', 'ejs');
+
+//Definindo a utilização de arquivos estáticos no Express
+app.use(express.static('public'));
+
+//rotas
+//rotas com requisição de parametros vinda do usuário
+app.get("/:nome/:langpro1/:langpro2", (req, res) =>{
+    var nome = req.params.nome;
+    var langprog1 = req.params.langpro1;//requisição de parametro 
+    var langprog2 = req.params.langpro2;//requisição de parametro 
+    var showMsg = false;
+    var personagens = [
+        {nome:"Goku", poder:"kamahameha"},
+        {nome:"Ichigo", poder:"Getsuga Tenshou"},
+        {nome:"Naruto", poder:"Hasengan"},
+		{nome:"Seya", poder:"Meteóro de Pegasus"}
+    ]//Variável para testar estrutura de repetição for each
+    
+    res.render("index",{
+        nome:nome,//nome recebe a variável nome
+        langprog1:langprog1,//langprog1 recebe a variável langprog1
+        langprog2:langprog2,//langprog2 recebe a variável langprog2
+        empresa:"T-pro",
+        funcionarios:2,
+        msg:showMsg,
+        personagens:personagens//renderização da nossa variavel personagen
+    });
+});
+
+//definindo a porta
+
+app.listen(3000, () => {
+    console.log("App rodando!")
+});
+
+~~~~
+
+
+
+E apenas com esse comando já conseguimos utilizar arquivos estáticos no nosso servidor Express;
+
+Agora deveremos criar de fato nossa pasta PUBLIC;
+
+Dentro da pasta PUBLIC irei criar também a pasta 'CSS', onde ficará a folha de estilos do projeto;
+
+Iremos criar o o arquivo de estilos: **"style.css"** 
+
+<img src="img\criacao_pastas.png">
+
+
+
+Agora que criamos nossa pasta PUBLIC e dentro dela a pasta CSS, podemos abrir o arquivo **"style.css"** que criamos dentro da pasta CSS e fazer alguns testes;
+
+Primeiramente, vamos definir que o fundo da nossa página será toda "Azul". Para isso vamos editar nosso arquivo css que ficará assim :
+
+~~~~~css
+body{
+    background: blue;
+}
+~~~~~
+
+Nesse exemplo acima, estou selecionando a tag BODY e atribuindo que todo o fundo será azul (Blue);
+
+Ao salvar esse arquivo css, vamos ao arquivo **index.js** e praticaremos o HTML básico. Vamos adicionar a TAG "link" e vamos definir nosso arquivo css. Nosso codigo ficará assim:
+
+~~~~html
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Definindo o arquivo css da página -->
+        <link rel="stylesheet" href="/css/style.css">
+        <title>Suporte Perguntas e Respostas</title>
+    </head>
+
+    <body>
+        <h1>Seja Bem Vindo!</h1>
+        <p>Este site está sendo desenvolvido para ser um tipo de fórum onde se poderão fazer e responder perguntas
+            referentes a um sistema que dou suporte</p>
+        <%= nome %><br>
+            <%= langprog1 %> <br>
+                <%= langprog2 %><br>
+                    <%= empresa %><br>
+                        <%= funcionarios %><br>
+
+                            <% if(msg==true){ %>
+                                <!-- !Esse bloco de código fará com que caso o valor da variável showMsg
+                                seja verdadeiro dentro do arquivo do nosso servidor Express, irá exibir esta mensagem
+                                dentro do H3 -->
+                                <h3>
+                                    Esta é uma mensagem de erro!
+                                </h3>
+                                <%}else{ %>
+                                    <!-- !Esse bloco de código fará com que caso o valor da variável showMsg
+                                 não seja verdadeiro dentro do arquivo do nosso servidor Express, irá exibir esta mensagem
+                                dentro do H3 -->
+                                    <h3>
+                                        Sem ERROS!
+                                    </h3>
+                                    <%}%>
+
+                                        <% personagens.forEach(function(personagens){%>
+                                            <h3><%= personagens.nome%></h3>
+                                            <h4><%= personagens.poder%></h4><hr>
+                                                    <%})%>
+
+
+    </body>
+
+</html>
+~~~~
+
+Se você prestar atenção na TAG:
+
+~~~~html
+<!-- Definindo o arquivo css da página -->
+        <link rel="stylesheet" href="/css/style.css">
+~~~~
+
+Nós não precisamos colocar o caminho completo ...href="public/css/style.css"...Referenciando a pasta PUBLIC, basta colocar no inicio '/' em seguida ""...css/style.css";
+
+Ao acessar nosso projeto após inicializar nosso nodemon, veremos assim:
+
+<img src="img\resultado_css.png">
+
+E teremos nossa página com fundo azul.
