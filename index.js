@@ -3,6 +3,8 @@ const app = express();//criar uma instancia do express
 
 //Estou configurando no Express a View Engine (renderizador html) que será utilizado
 app.set('view engine', 'ejs');
+//Definindo a utilização de arquivos estáticos no Express
+app.use(express.static('public'));
 
 //rotas
 //rotas com requisição de parametros vinda do usuário
